@@ -58,3 +58,60 @@ function editCharacter(id, nome, idade, email) {
     .catch(error => console.error('Erro:', error));
 }
 loadCharacters();
+
+function loadMedias() {
+    fetch('http://localhost:3000/api/anime')
+    .then(response => response.json())
+    .then(data => {
+        const list = document.getElementById('media-list');
+        list.innerHTML = '';
+        data.forEach(anime => {
+            list.innerHTML += `
+            <div>
+                <p>${anime.titulo} (${anime.ano_lancamento}) - ${anime.genero}</p>
+                <button onclick="deleteMedias(${anime.id_anime})">Deletar</button>
+                <button onclick="editMedias(${anime.id_anime}, '${anime.titulo}', ${anime.ano_lancamento}, '${anime.genero}')">Editar</button>
+            </div>`;                
+        });
+    })
+    .catch(error => console.error('Erro:', error));
+}
+
+document.getElementById('media-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const titulo = document.getElementById('titulo').value;
+    const ano_lancamento = document.getElementById('ano_lancamento').value;
+    const genero = document.getElementById('genero').value;
+
+    fetch('http://localhost:3000/api/anime', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, ano_lancamento, genero })
+    })
+    .then(() => {
+        loadMedias();
+        document.getElementById('media-form').requestFullscreen();
+    })
+    .catch(error => console.error('Erro:', error));
+});
+
+function deleteMedias(id) {
+    fetch(`http://localhost:3000/api/anime/${id}`, { method: 'DELETE' })
+    .then(() => loadMedias())
+    .catch(error => console.error('Erro:', error));
+}
+
+function editMedias(id, titulo, ano_lancamento, genero) {
+    const tituloNovo = prompt('Novo titulo:', titulo);
+    const anoNovo = prompt('Novo ano:', ano_lancamento);
+    const generoNovo = prompt('Novo genero:', genero);
+
+    fetch(`http://localhost:3000/api/anime/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo: tituloNovo, ano_lancamento: anoNovo, genero: generoNovo })
+    })
+    .then(() => loadMedias())
+    .catch(error => console.error('Erro:', error));
+}
+loadMedias();

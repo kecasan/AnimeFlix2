@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'senac',
-    port:3307,
+    port: 3307,
     database: 'animeflix' 
 });
 
@@ -73,11 +73,62 @@ app.delete('/api/pessoa/:id', (req, res) => {
     const sql = 'DELETE FROM pessoa WHERE id_pessoa = ?';
     db.query(sql, [id], (err, result) => {
         if (err) {
-            console.error('Érro ao deletar dados:', err);
+            console.error('Erro ao deletar dados:', err);
             res.status(500).send('Erro ao deletar dados');
             return;
         }
         res.send('Pessoa deletada com sucesso!');
+    });
+});
+
+app.get('/api/anime', (req, res) => {
+    db.query('SELECT * FROM anime', (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar dados:', err);
+            res.status(500).send('Erro ao buscar dados');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+app.post('/api/anime', (req, res) => {
+    const { titulo, genero, ano_lancamento} = req.body;
+    const sql = 'INSERT INTO anime (titulo, genero, ano_lancamento) VALUES (?, ?, ?)';
+    db.query(sql, [titulo, genero, ano_lancamento], (err, result) => {
+        if (err) {
+            console.error('Erro ao inserir dados:', err);
+            res.status(500).send('Erro ao inserir dados');
+            return;
+        }
+        res.status(201).send('Anime adicionado com sucesso!');
+    });
+});
+
+app.put('/api/anime/:id', (req, res) => {
+    const { id } = req.params;
+    const { titulo, genero, ano_lancamento } = req.body;
+    const sql = 'UPDATE anime SET titulo = ?, genero = ?, ano_lancamento = ? WHERE id_anime = ?';
+    db.query(sql, [titulo, genero, ano_lancamento, id], (err, result) => {
+        if (err) {
+            console.error('Erro ao atualizar dados:', err);
+            res.status(500).send('Erro ao atualizar dados');
+            return;
+        }
+        res.send('Anime atualizado com sucesso!');
+    });
+});
+
+app.delete('/api/anime/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = 'DELETE FROM anime WHERE id_anime = ?';
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Erro ao deletar dados:', err);
+            res.status(500).send('Erro ao deletar dados');
+            return;
+        }
+        res.send('Anime deletado com sucesso!');
     });
 });
 
