@@ -165,6 +165,18 @@ app.get('/api/assiste', (req, res) => {
     });
 });
 
+app.get('/api/assiste', (req, res) => {
+    db.query('SELECT assiste.data_assistiu FROM assiste JOIN pessoa ON pessoa.id_pessoa = assiste.id_pessoa;', (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar dados:', err);
+            res.status(500).send('Erro ao buscar dados');
+            return;
+        }
+        res.send(results);
+    });
+});
+
+
 // Iniciando o servidor na porta 3000
 const PORT = 3000;
 app.listen(PORT, () => {
