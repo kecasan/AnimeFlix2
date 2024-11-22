@@ -31,7 +31,7 @@ document.getElementById('character-form').addEventListener('submit', (e) => {
     })
     .then(() => {
         loadCharacters();
-        document.getElementById('character-form').requestFullscreen();
+        document.getElementById('character-form');
     })
     .catch(error => console.error('Erro:', error));
 });
@@ -58,6 +58,8 @@ function editCharacter(id, nome, idade, email) {
     .catch(error => console.error('Erro:', error));
 }
 loadCharacters();
+
+//=======================================================
 
 function loadMedias() {
     fetch('http://localhost:3000/api/anime')
@@ -115,3 +117,23 @@ function editMedias(id, titulo, ano_lancamento, genero) {
     .catch(error => console.error('Erro:', error));
 }
 loadMedias();
+
+//=======================================================
+
+function loadViews(){
+    fetch('http://localhost:3000/api/assiste')
+    .then(response => response.json())
+    .then(data => {
+        const list = document.getElementById('assiste-list');
+        list.innerHTML = '';
+        data.forEach(viu => {
+            list.innerHTML += `
+            <div>
+                <p>${viu.id_pessoa} - ${viu.id_anime} - ${viu.data_assistiu}</p>
+            </div>`;
+        });
+    })
+    .catch(error => console.error('Erro :', error));
+}
+
+loadViews();
