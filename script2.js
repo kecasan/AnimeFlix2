@@ -61,6 +61,7 @@ loadCharacters();
 
 //=======================================================
 
+// Função para exibir a lista de animes
 function loadMedias() {
     fetch('http://localhost:3000/api/anime')
     .then(response => response.json())
@@ -79,6 +80,7 @@ function loadMedias() {
     .catch(error => console.error('Erro:', error));
 }
 
+// Adicionar novo anime
 document.getElementById('media-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const titulo = document.getElementById('titulo').value;
@@ -97,12 +99,14 @@ document.getElementById('media-form').addEventListener('submit', (e) => {
     .catch(error => console.error('Erro:', error));
 });
 
+// Deletar anime
 function deleteMedias(id) {
     fetch(`http://localhost:3000/api/anime/${id}`, { method: 'DELETE' })
     .then(() => loadMedias())
     .catch(error => console.error('Erro:', error));
 }
 
+// Editar anime
 function editMedias(id, titulo, ano_lancamento, genero) {
     const tituloNovo = prompt('Novo titulo:', titulo);
     const anoNovo = prompt('Novo ano:', ano_lancamento);
@@ -120,6 +124,7 @@ loadMedias();
 
 //=======================================================
 
+// Função para exibir a lista de quem assistiu, o que e quando
 function loadViews(){
     fetch('http://localhost:3000/api/assiste')
     .then(response => response.json())
