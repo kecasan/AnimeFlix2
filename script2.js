@@ -129,11 +129,10 @@ function loadViews(){
         data.forEach(viu => {
             list.innerHTML += `
             <div>
-                <p>${viu.id_pessoa} - ${viu.id_anime} - ${viu.data_assistiu}</p>
+                <p>${viu.nome} - ${viu.titulo} - ${viu.data_assistiu}</p>
             </div>`;
         });
     })
     .catch(error => console.error('Erro :', error));
 }
-
 loadViews();
