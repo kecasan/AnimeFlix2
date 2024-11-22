@@ -144,7 +144,7 @@ app.delete('/api/anime/:id', (req, res) => {
 });*/
 
 app.get('/api/assiste', (req, res) => {
-    db.query('SELECT pessoa.nome FROM pessoa JOIN assiste ON pessoa.id_pessoa = assiste.id_pessoa JOIN anime ON assiste.id_anime = anime.id_anime', (err, results) => {
+    db.query('SELECT pessoa.nome, anime.titulo, assiste.data_assistiu FROM pessoa JOIN assiste ON pessoa.id_pessoa = assiste.id_pessoa JOIN anime ON assiste.id_anime = anime.id_anime', (err, results) => {
         if (err) {
             console.error('Erro ao buscar dados:', err);
             res.status(500).send('Erro ao buscar dados');
@@ -154,7 +154,7 @@ app.get('/api/assiste', (req, res) => {
     });
 });
 
-app.get('/api/assiste', (req, res) => {
+/*app.get('/api/assiste', (req, res) => {
     db.query('SELECT anime.titulo FROM anime JOIN assiste ON assiste.id_anime = anime.id_anime JOIN pessoa ON assiste.id_pessoa = pessoa.id_pessoa;', (err, results) => {
         if (err) {
             console.error('Erro ao buscar dados:', err);
@@ -175,7 +175,7 @@ app.get('/api/assiste', (req, res) => {
         res.send(results);
     });
 });
-
+*/
 // Iniciando o servidor na porta 3000
 const PORT = 3000;
 app.listen(PORT, () => {

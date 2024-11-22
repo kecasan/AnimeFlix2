@@ -135,7 +135,7 @@ function loadViews(){
             list.innerHTML += `
             <div>
                 <p>${viu.nome} - ${viu.titulo} - ${viu.data_assistiu}</p>
-            </div>`;
+            </div>`; 
         });
     })
     .catch(error => console.error('Erro :', error));
