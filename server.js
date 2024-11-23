@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'senac',
-    port: 3307,
+    password: 'root',
+    port: 3306,
     database: 'animeflix' 
 });
 
